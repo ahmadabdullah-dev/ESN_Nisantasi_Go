@@ -17,7 +17,7 @@ public class PlanService : IPlanService
         var planDto = new PlanDto
         {
             Id = plan.Id,
-            CreatorUserName = plan.Creator.UserName!,
+            CreatorUserName = plan.CreatorUserName,
             Title = plan.Title,
             LocationName = plan.LocationName,
             Description = plan.Description,

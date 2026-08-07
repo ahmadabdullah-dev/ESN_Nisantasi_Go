@@ -1,4 +1,6 @@
 ﻿using DataAccess.Common;
+using DataAccess.Projections;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
@@ -22,9 +24,22 @@ public class PlanRepository : IPlanRepository
         _appDbContext.Plans.Remove(plan);
         return await _appDbContext.SaveChangesAsync() > 0;
     }
-    public async Task<Plan?> GetPlanByIdAsync(string planId)
+    public async Task<PlanProjection?> GetPlanByIdAsync(string planId)
     {
-        return await _appDbContext.Plans.FindAsync(planId);
+        var query = _appDbContext.Plans
+            .Where(x => x.Id == planId)
+            .Select(x => new PlanProjection
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Description = x.Description,
+                LocationName = x.LocationName,
+                PlannedAt = x.PlannedAt,
+                CreatorUserName = x.Creator.UserName!
+            });
+       // Console.WriteLine(query.ToQueryString());
+
+        return await query.SingleOrDefaultAsync();
     }
     public async Task<bool> UpdatePlanAsync(Plan plan)
     {

@@ -2,3 +2,4 @@
 global using DataAccess.Interfaces;
 global using DataAccess.Repositories;
 global using DataAccess.Common;
+global using DataAccess.Projections;
