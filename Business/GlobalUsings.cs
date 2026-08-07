@@ -2,3 +2,5 @@
 global using Business.Common.Configurations;
 global using Business.Interfaces;
 global using Business.Services;
+global using Business.Common;
+global using Business.Dtos;
