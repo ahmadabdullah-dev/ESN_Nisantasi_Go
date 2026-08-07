@@ -110,4 +110,26 @@ public class PlanService : IPlanService
 
         return Result<string>.Success("Plan updated successfully");
     }
+    public async Task<Result<string>> DeletePlanByIdAsync(string id, CancellationToken ct)
+    {
+        var currentUserId = _userService.GetCurrentUserId();
+    
+        var plan = await _planRepository.GetPlanEntityByIdAsync(id, ct);
+       
+        if (plan == null)
+            return Result<string>.Failure("Plan not found", 404);
+       
+        if (plan.Creator.Id != currentUserId)
+            return Result<string>.Failure("Plan can only be deleted by the creator", 403);
+
+        var isDeleted = await _planRepository.RemovePlanAsync(plan,ct);
+
+        if(!isDeleted)
+            return Result<string>.Failure("Unexpected errror happened", 400);
+
+        
+
+        return Result<string>.Success("Plan deleted successfully");
+
+    }
 }

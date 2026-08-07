@@ -5,4 +5,5 @@ public interface IPlanService
     Task<Result<string>> AddPlanAsync(CreatePlanDto dto, CancellationToken ct);
     Task<Result<PagedList<PlanDto>>> GetPlansAsync(PaginationParams p, CancellationToken ct);
     Task<Result<string>> UpdatePlanAsync(UpdatePlanDto dto, CancellationToken ct);
+    Task<Result<string>> DeletePlanByIdAsync(string id, CancellationToken ct);
 }

@@ -37,4 +37,10 @@ public class PlanController: BaseApiController
         var result = await _planService.UpdatePlanAsync(dto,ct);
         return HandleResult(result);
     }
+    [HttpDelete]
+    public async Task<ActionResult> DeletePlan(string id, CancellationToken ct) 
+    {
+        var result = await _planService.DeletePlanByIdAsync(id, ct);
+        return HandleResult(result);
+    }
 }
