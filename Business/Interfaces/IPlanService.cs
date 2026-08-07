@@ -2,5 +2,5 @@
 public interface IPlanService
 {
     Task<Result<PlanDto>> GetPlanByIdAsync(string planId, CancellationToken ct);
-
+    Task<Result<string>> AddPlanAsync(CreatePlanDto dto);
 }

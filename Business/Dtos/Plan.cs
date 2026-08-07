@@ -9,4 +9,10 @@ public class PlanDto
     public string? Description { get; set; }
     public required DateTime PlannedAt { get; set; }
 }
-
+public class CreatePlanDto
+{
+    public required string Title { get; set; }
+    public required string LocationName { get; set; }
+    public string? Description { get; set; }
+    public required DateTime PlannedAt { get; set; }
+}
