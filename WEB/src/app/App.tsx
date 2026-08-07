@@ -1,5 +1,16 @@
+import { Box } from "@mui/material";
+import Footer from "./Footer";
+import Header from "./Header"
+
 export default function App() {
-  return (
-    <div>ESN Nisantasi Go</div>
-  )
+ return (
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Header />
+      <Box sx={{ height: { xs: 56, md: 64 } }} />
+      <Box component="main" sx={{ flex: 1 }}>
+        ESN Nisantasi Go
+      </Box>
+      <Footer />
+    </Box>
+  );
 }
