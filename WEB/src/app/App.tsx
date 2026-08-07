@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import Footer from "./Footer";
 import Header from "./Header"
+import { Outlet } from "react-router";
 
 export default function App() {
  return (
@@ -8,7 +9,7 @@ export default function App() {
       <Header />
       <Box sx={{ height: { xs: 56, md: 64 } }} />
       <Box component="main" sx={{ flex: 1 }}>
-        ESN Nisantasi Go
+        <Outlet/>
       </Box>
       <Footer />
     </Box>

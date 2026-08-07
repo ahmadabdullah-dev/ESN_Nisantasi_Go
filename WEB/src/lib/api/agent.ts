@@ -6,9 +6,9 @@ const agent = axios.create({
 });
 
 agent.interceptors.response.use(
-  (response) => response, (error: AxiosError<{ error?: string }>) => {
-    if (error.response?.data?.error) {
-      return Promise.reject(new Error(error.response.data.error));
+  (response) => response, (error: AxiosError<string >) => {
+    if (error.response?.data) {
+      return Promise.reject(new Error(error.response.data));
     }
     return Promise.reject(error);
   }
