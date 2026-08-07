@@ -31,6 +31,8 @@ namespace DataAccess
         
             services.AddDataProtection();
            
+            services.AddScoped<IPlanRepository, PlanRepository>();
+
             services.AddScoped<DataSeeder>();
 
             return services;
