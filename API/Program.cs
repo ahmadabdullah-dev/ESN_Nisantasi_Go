@@ -15,10 +15,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseHsts(); 
+}
+
 await app.Services.SeedDataAsync();
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowWeb"); 
+
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();
