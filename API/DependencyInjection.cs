@@ -1,4 +1,7 @@
-﻿namespace API;
+﻿using Microsoft.AspNetCore.HttpOverrides;
+using System.Threading.RateLimiting;
+
+namespace API;
 
 public static class DependencyInjection
 {
@@ -34,6 +37,29 @@ public static class DependencyInjection
                           .AllowAnyMethod()
                           .AllowCredentials();
                 });
+        });
+       
+        // Trust X-Forwarded-For so we get the real client IP, not the proxy's
+        services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor;
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+        });
+
+        services.AddRateLimiter(options =>
+        {
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+            options.AddPolicy("auth", httpContext =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 5,
+                        Window = TimeSpan.FromMinutes(1),
+                        QueueLimit = 0
+                    }));
         });
 
         return services;

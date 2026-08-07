@@ -22,12 +22,16 @@ else
 
 await app.Services.SeedDataAsync();
 
+app.UseForwardedHeaders(); 
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowWeb"); 
 
 app.UseAuthentication(); 
 app.UseAuthorization();
+
+app.UseRateLimiter();
 
 app.MapControllers();
 
