@@ -17,6 +17,7 @@
     "axios": "^1.19.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-router": "^8.3.0",
     "rollup-plugin-visualizer": "^7.0.1",
     "vite-plugin-mkcert": "^2.1.0"
   },
