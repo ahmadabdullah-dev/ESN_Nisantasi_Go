@@ -56,5 +56,27 @@ public class PlanService : IPlanService
             return Result<string>.Failure("Unexpected error happened", 500);
         }
     }
-    
+   public async Task<Result<PagedList<PlanDto>>> GetPlansAsync(PaginationParams p, CancellationToken ct)
+   {
+        var plans = await _planRepository.GetPlansAsync(p, ct);
+        
+        var dtos =  new PagedList<PlanDto>
+        {
+            Items = plans.Items.Select(x => new PlanDto
+            {
+                Id = x.Id,
+                CreatorUserName = x.CreatorUserName,
+                Title = x.Title,
+                Description = x.Description,
+                LocationName = x.LocationName,
+                PlannedAt = x.PlannedAt
+
+            }).ToList(),
+
+            CurrentPage = plans.CurrentPage,
+            TotalCount = plans.TotalCount,
+            TotalPages = plans.TotalPages,
+        };
+        return Result<PagedList<PlanDto>>.Success(dtos);
+   }
 }

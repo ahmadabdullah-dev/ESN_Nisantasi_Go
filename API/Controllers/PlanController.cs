@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DataAccess.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -12,8 +13,8 @@ public class PlanController: BaseApiController
         _planService = planService;
     }
 
-    [HttpGet("{planId}")]
-    public async Task<ActionResult> GetPlanById(string planId, CancellationToken ct)
+    [HttpGet]
+    public async Task<ActionResult> GetPlanById([FromQuery] string planId, CancellationToken ct)
     {
         var result = await _planService.GetPlanByIdAsync(planId,ct);
         return HandleResult(result);
@@ -22,6 +23,12 @@ public class PlanController: BaseApiController
     public async Task<ActionResult> AddPlan(CreatePlanDto dto, CancellationToken ct)
     {
         var result = await _planService.AddPlanAsync(dto, ct);
+        return HandleResult(result);
+    }
+    [HttpGet("paged")]
+    public async Task<ActionResult> GetPlans([FromQuery] PaginationParams p,CancellationToken ct)
+    {
+        var result = await _planService.GetPlansAsync(p,ct); 
         return HandleResult(result);
     }
 }
