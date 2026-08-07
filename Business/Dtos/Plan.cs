@@ -16,3 +16,11 @@ public class CreatePlanDto
     public string? Description { get; set; }
     public required DateTime PlannedAt { get; set; }
 }
+public class UpdatePlanDto
+{
+    public required string PlanId { get; set; }
+    public string? Title { get; set; }
+    public string? LocationName { get; set; }
+    public string? Description { get; set; }
+    public DateTime? PlannedAt { get; set; }
+}

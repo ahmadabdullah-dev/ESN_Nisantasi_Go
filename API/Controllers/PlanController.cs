@@ -31,4 +31,10 @@ public class PlanController: BaseApiController
         var result = await _planService.GetPlansAsync(p,ct); 
         return HandleResult(result);
     }
+    [HttpPut]
+    public async Task<ActionResult> UpdatePlan(UpdatePlanDto dto, CancellationToken ct)
+    {
+        var result = await _planService.UpdatePlanAsync(dto,ct);
+        return HandleResult(result);
+    }
 }

@@ -60,4 +60,10 @@ public class PlanRepository : IPlanRepository
         // Console.WriteLine(query.ToQueryString());
         return await PagedList<PlanProjection>.CreateAsync(query, p.Page, p.PageSize, ct);
     }
+    public async Task<Plan?> GetPlanEntityByIdAsync(string Id, CancellationToken ct = default)
+    {
+        return await _appDbContext.Plans
+            .Include(x => x.Creator)
+            .FirstOrDefaultAsync(x => x.Id == Id, ct);
+    }
 }

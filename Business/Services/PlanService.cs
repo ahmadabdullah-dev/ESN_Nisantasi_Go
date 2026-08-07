@@ -56,7 +56,7 @@ public class PlanService : IPlanService
             return Result<string>.Failure("Unexpected error happened", 500);
         }
     }
-   public async Task<Result<PagedList<PlanDto>>> GetPlansAsync(PaginationParams p, CancellationToken ct)
+    public async Task<Result<PagedList<PlanDto>>> GetPlansAsync(PaginationParams p, CancellationToken ct)
    {
         var plans = await _planRepository.GetPlansAsync(p, ct);
         
@@ -79,4 +79,35 @@ public class PlanService : IPlanService
         };
         return Result<PagedList<PlanDto>>.Success(dtos);
    }
+    public async Task<Result<string>> UpdatePlanAsync(UpdatePlanDto dto, CancellationToken ct)
+    {
+        var currentUserId =  _userService.GetCurrentUserId();
+
+        var plan = await _planRepository.GetPlanEntityByIdAsync(dto.PlanId, ct);
+
+        if (plan == null)
+            return Result<string>.Failure("Plan not found", 404);
+
+        if (plan.Creator.Id != currentUserId)
+            return Result<string>.Failure("Plan can only be modified by the creator", 403);
+
+        if(!string.IsNullOrEmpty(dto.Title))
+            plan.Title = dto.Title.Trim();
+
+        if(!string.IsNullOrEmpty(dto.Description))
+            plan.Description = dto.Description.Trim();
+        
+        if(!string.IsNullOrEmpty(dto.LocationName))
+            plan.LocationName = dto.LocationName.Trim();
+        
+        if((dto.PlannedAt.HasValue))
+            plan.PlannedAt = dto.PlannedAt.Value;
+
+        var isUpdated = await _planRepository.UpdatePlanAsync(plan, ct);
+        
+        if (!isUpdated)
+            return Result<string>.Failure("Unexpected errror happened", 400);
+
+        return Result<string>.Success("Plan updated successfully");
+    }
 }
