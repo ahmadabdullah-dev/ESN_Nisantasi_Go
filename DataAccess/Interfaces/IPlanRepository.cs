@@ -2,8 +2,9 @@
 
 public interface IPlanRepository
 {
-    Task<string> AddPlan(Plan plan);
-    Task<bool> RemovePlan(Plan plan);
-    Task<Plan?> GetPlanById(string planId);
-    Task<bool> UpdatePlan(Plan plan);
+    Task<string> AddPlanAsync(Plan plan);
+    Task<bool> RemovePlanAsync(Plan plan);
+    Task<Plan?> GetPlanByIdAsync(string planId);
+    Task<bool> UpdatePlanAsync(Plan plan);
+    Task<PagedList<Plan>> GetPlansAsync(PaginationParams p);
 }
