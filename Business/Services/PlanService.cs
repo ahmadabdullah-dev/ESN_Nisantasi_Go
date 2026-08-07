@@ -7,9 +7,9 @@ public class PlanService : IPlanService
         _planRepository = planRepository;
     }
 
-    public async Task<Result<PlanDto>> GetPlanByIdAsync(string planId)
+    public async Task<Result<PlanDto>> GetPlanByIdAsync(string planId, CancellationToken ct)
     {
-        var plan = await _planRepository.GetPlanByIdAsync(planId);
+        var plan = await _planRepository.GetPlanByIdAsync(planId,ct);
         
         if(plan == null) 
             return Result<PlanDto>.Failure("Plan not found", 404);

@@ -24,9 +24,9 @@ public class PlanRepository : IPlanRepository
         _appDbContext.Plans.Remove(plan);
         return await _appDbContext.SaveChangesAsync() > 0;
     }
-    public async Task<PlanProjection?> GetPlanByIdAsync(string planId)
+    public async Task<PlanProjection?> GetPlanByIdAsync(string planId, CancellationToken ct = default)
     {
-        var query = _appDbContext.Plans
+        var query = _appDbContext.Plans.AsNoTracking()
             .Where(x => x.Id == planId)
             .Select(x => new PlanProjection
             {
@@ -39,7 +39,7 @@ public class PlanRepository : IPlanRepository
             });
        // Console.WriteLine(query.ToQueryString());
 
-        return await query.SingleOrDefaultAsync();
+        return await query.SingleOrDefaultAsync(ct);
     }
     public async Task<bool> UpdatePlanAsync(Plan plan)
     {

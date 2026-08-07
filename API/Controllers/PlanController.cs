@@ -11,9 +11,9 @@ public class PlanController: BaseApiController
     }
 
     [HttpGet("{planId}")]
-    public async Task<IActionResult> GetPlanByIdAsync(string planId)
+    public async Task<IActionResult> GetPlanByIdAsync(string planId, CancellationToken ct)
     {
-        var result = await _planService.GetPlanByIdAsync(planId);
+        var result = await _planService.GetPlanByIdAsync(planId,ct);
         return HandleResult(result);
     }
 }

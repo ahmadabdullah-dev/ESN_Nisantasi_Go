@@ -1,6 +1,6 @@
 ﻿namespace Business.Interfaces;
 public interface IPlanService
 {
-    Task<Result<PlanDto>> GetPlanByIdAsync(string planId);
+    Task<Result<PlanDto>> GetPlanByIdAsync(string planId, CancellationToken ct);
 
 }
