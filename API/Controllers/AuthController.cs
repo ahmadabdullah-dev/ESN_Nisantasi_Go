@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
@@ -17,5 +18,11 @@ public class AuthController : BaseApiController
         var result = await _authService.LoginAsync(dto);
         return HandleResult(result);
     }
-
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<ActionResult> Logout()
+    {
+        var result = await _authService.LogoutAsync();
+        return HandleResult(result);
+    }
 }
