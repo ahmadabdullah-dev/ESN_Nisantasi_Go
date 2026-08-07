@@ -10,15 +10,18 @@ public class PagedList<T>
     public bool HasNextPage => CurrentPage < TotalPages; // e.g has 5th page
     public bool HasPreviousPage => CurrentPage > 1; // e.g has 3rd page
 
-    public static async Task<PagedList<T>> CreateAsync(IQueryable<T> query, int page, int pageSize)
+    public static async Task<PagedList<T>> CreateAsync(
+        IQueryable<T> query,
+        int page,
+        int pageSize,
+        CancellationToken ct = default
+        )
     {
-        var totalCount = await query.CountAsync();
-
+        var totalCount = await query.CountAsync(ct);
         var items =
             await query.Skip((page - 1) * pageSize) // e.g (2-1) * 10  if required page 2 skip first 10 item then take from 11th to 20
             .Take(pageSize)
-            .ToListAsync();
-
+            .ToListAsync(ct);
         return new PagedList<T>
         {
             Items = items,

@@ -1,6 +1,4 @@
-﻿using DataAccess.Projections;
-
-namespace DataAccess.Interfaces;
+﻿namespace DataAccess.Interfaces;
 
 public interface IPlanRepository
 {
@@ -8,5 +6,5 @@ public interface IPlanRepository
     Task<bool> RemovePlanAsync(Plan plan);
     Task<PlanProjection?> GetPlanByIdAsync(string planId,CancellationToken ct);
     Task<bool> UpdatePlanAsync(Plan plan);
-    Task<PagedList<Plan>> GetPlansAsync(PaginationParams p);
+    Task<PagedList<PlanProjection>> GetPlansAsync(PaginationParams p,CancellationToken ct);
 }

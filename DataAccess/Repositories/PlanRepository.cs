@@ -1,6 +1,4 @@
-﻿using DataAccess.Common;
-using DataAccess.Projections;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
@@ -46,8 +44,20 @@ public class PlanRepository : IPlanRepository
         _appDbContext.Plans.Update(plan);
         return await _appDbContext.SaveChangesAsync() > 0;
     }
-    public async Task<PagedList<Plan>> GetPlansAsync(PaginationParams p)
+    public async Task<PagedList<PlanProjection>> GetPlansAsync(PaginationParams p, CancellationToken ct = default)
     {
-        return await PagedList<Plan>.CreateAsync(_appDbContext.Plans, p.Page, p.PageSize);
+        var query = _appDbContext.Plans
+            .AsNoTracking()
+            .Select(x => new PlanProjection
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Description = x.Description,
+                LocationName = x.LocationName,
+                PlannedAt = x.PlannedAt,
+                CreatorUserName = x.Creator.UserName!
+            });
+        // Console.WriteLine(query.ToQueryString());
+        return await PagedList<PlanProjection>.CreateAsync(query, p.Page, p.PageSize, ct);
     }
 }
