@@ -11,16 +11,16 @@ public class PlanRepository : IPlanRepository
         _appDbContext = appDbContext;
     }
 
-    public async Task<string> AddPlanAsync(Plan plan)
+    public async Task<string> AddPlanAsync(Plan plan, CancellationToken ct = default)
     {
         await _appDbContext.Plans.AddAsync(plan);
-        await _appDbContext.SaveChangesAsync();
+        await _appDbContext.SaveChangesAsync(ct);
         return plan.Id;
     }
-    public async Task<bool> RemovePlanAsync(Plan plan)
+    public async Task<bool> RemovePlanAsync(Plan plan, CancellationToken ct = default)
     {
         _appDbContext.Plans.Remove(plan);
-        return await _appDbContext.SaveChangesAsync() > 0;
+        return await _appDbContext.SaveChangesAsync(ct) > 0;
     }
     public async Task<PlanProjection?> GetPlanByIdAsync(string planId, CancellationToken ct = default)
     {
@@ -39,10 +39,10 @@ public class PlanRepository : IPlanRepository
 
         return await query.SingleOrDefaultAsync(ct);
     }
-    public async Task<bool> UpdatePlanAsync(Plan plan)
+    public async Task<bool> UpdatePlanAsync(Plan plan, CancellationToken ct = default)
     {
         _appDbContext.Plans.Update(plan);
-        return await _appDbContext.SaveChangesAsync() > 0;
+        return await _appDbContext.SaveChangesAsync(ct) > 0;
     }
     public async Task<PagedList<PlanProjection>> GetPlansAsync(PaginationParams p, CancellationToken ct = default)
     {

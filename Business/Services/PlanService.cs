@@ -30,7 +30,7 @@ public class PlanService : IPlanService
 
         return Result<PlanDto>.Success(planDto);
     }
-    public async Task<Result<string>> AddPlanAsync(CreatePlanDto dto)
+    public async Task<Result<string>> AddPlanAsync(CreatePlanDto dto, CancellationToken ct)
     {
         var userId = _userService.GetCurrentUserId();
 
@@ -48,7 +48,7 @@ public class PlanService : IPlanService
 
         try
         {
-            var addedPlanId = await _planRepository.AddPlanAsync(plan);
+            await _planRepository.AddPlanAsync(plan,ct);
             return Result<string>.Success("Plan added succcessfully");
         }
         catch
@@ -56,4 +56,5 @@ public class PlanService : IPlanService
             return Result<string>.Failure("Unexpected error happened", 500);
         }
     }
+    
 }

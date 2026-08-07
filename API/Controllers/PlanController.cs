@@ -19,9 +19,9 @@ public class PlanController: BaseApiController
         return HandleResult(result);
     }
     [HttpPost("add")]
-    public async Task<ActionResult> AddPlan(CreatePlanDto dto)
+    public async Task<ActionResult> AddPlan(CreatePlanDto dto, CancellationToken ct)
     {
-        var result = await _planService.AddPlanAsync(dto);
+        var result = await _planService.AddPlanAsync(dto, ct);
         return HandleResult(result);
     }
 }
