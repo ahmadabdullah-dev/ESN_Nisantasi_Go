@@ -1,6 +1,6 @@
 ﻿namespace Business.Dtos;
 
-public class RegisterDto
+public class RegisterUserDto
 {  
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
