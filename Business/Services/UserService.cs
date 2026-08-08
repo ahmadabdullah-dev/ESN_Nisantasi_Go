@@ -38,7 +38,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user == null)
-            return Result<UserDto>.Failure("User not found!. It may have been removed or deactivated.",404);
+            return Result<UserDto>.Failure("User not found!. You may have been removed or deactivated.",404);
 
         var userDto = new UserDto
         {
@@ -51,6 +51,28 @@ public class UserService : IUserService
             Country = user.Country,
             Department = user.Department,
 
+        };
+        return Result<UserDto>.Success(userDto);
+    }
+
+    public async Task<Result<UserDto>> GetUserByUserNameAsync(string userName)
+    {
+
+        var user = await _userManager.FindByNameAsync(userName);
+
+        if (user == null)
+            return Result<UserDto>.Failure("User not found", 404);
+
+        var userDto = new UserDto()
+        {
+            ProfilePhotoPublicId = user.ProfilePhotoPublicId,
+            UserName = user.UserName!,
+            FirstName = user.FirstName,
+            LastName= user.LastName,
+            Country = user.Country,
+            Email = user.Email!,
+            Department = user.Department,
+            IsActive = user.IsActive,
         };
         return Result<UserDto>.Success(userDto);
     }
