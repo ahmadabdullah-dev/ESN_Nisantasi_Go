@@ -13,7 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import Footer from "./Footer";
-import theme from "../lib/theme";
+import theme from "../../lib/theme";
 
 export interface DrawerNavItem {
   label: string;
