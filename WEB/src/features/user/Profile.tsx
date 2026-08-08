@@ -8,12 +8,13 @@ import {
   Divider,
   Stack,
   Typography,
-} from "@mui/material"
-import { useUser } from "../../lib/hooks/useUser"
+} from "@mui/material";
+import { useParams } from "react-router";
+import { useGetUserByUsername } from "../../lib/hooks/useUser";
 
 interface ProfileFieldProps {
-  label: string
-  value?: string | number | null
+  label: string;
+  value?: string | number | null;
 }
 
 function ProfileField({ label, value }: ProfileFieldProps) {
@@ -26,30 +27,34 @@ function ProfileField({ label, value }: ProfileFieldProps) {
         {value || "—"}
       </Typography>
     </Box>
-  )
+  );
 }
 
 export default function Profile() {
-  const { currentUser } = useUser()
-  const user = currentUser.data
+  const { username } = useParams<{ username: string }>();
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useGetUserByUsername(username ?? "");
 
-  if (currentUser.isLoading) {
+  if (isLoading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
         <CircularProgress />
       </Box>
-    )
+    );
   }
 
-  if (!user) {
+  if (isError || !user) {
     return (
       <Box sx={{ mt: 6, textAlign: "center" }}>
-        <Typography color="text.secondary">No profile data found.</Typography>
+        <Typography color="text.secondary">Profile not found.</Typography>
       </Box>
-    )
+    );
   }
 
-  const fullName = [user.firstName, user.lastName].filter(Boolean).join(" ")
+  const fullName = [user.firstName, user.lastName].filter(Boolean).join(" ");
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center", mt: 4, px: 2 }}>
@@ -64,7 +69,10 @@ export default function Profile() {
         }}
       >
         <CardContent sx={{ p: 4 }}>
-          <Stack spacing={1.5} sx={{ alignItems: "center", textAlign: "center" }}>
+          <Stack
+            spacing={1.5}
+            sx={{ alignItems: "center", textAlign: "center" }}
+          >
             <Avatar
               src={
                 user.profilePhotoPublicId
@@ -109,5 +117,5 @@ export default function Profile() {
         </CardContent>
       </Card>
     </Box>
-  )
+  );
 }
