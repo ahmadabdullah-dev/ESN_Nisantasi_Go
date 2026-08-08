@@ -1,10 +1,10 @@
-export type UserDto = {
-    ProfilePhotoPublicId :string,
-    UserName: string,
-    FirstName: string,
-    LastName: string,
-    Email: string,
-    Country: string,
-    Department: string,
-    IsActive: boolean,
+export interface UserDto {
+  profilePhotoPublicId: string | null
+  userName: string
+  firstName: string
+  lastName: string
+  country: string
+  department: string
+  isActive: boolean
+  email: string
 }

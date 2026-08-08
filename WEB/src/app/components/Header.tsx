@@ -10,6 +10,8 @@ import TemporaryDrawer from "./TemporaryDrawer";
 import { useEffect,useState } from "react";
 const NAV_LINKS = [
   { label: "Home", href: "/" },
+  { label: "My Profile", href: "/my-profile" },
+
 ];
 
 export default function Header() {

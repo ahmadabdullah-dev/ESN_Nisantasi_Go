@@ -6,6 +6,7 @@ import LoginForm from "../../features/auth/LoginForm";
 import RequireAuth from "./RequireAuth";
 import AdminDashboard from "../../features/admin/AdminDashboard";
 import Dashboard from "../components/Dashboard";
+import Profile from "../../features/user/My-Profile";
 
 export const routes = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const routes = createBrowserRouter([
         children: [
           { path: "admin", element: <AdminDashboard /> },
           { path: "dashboard", element: <Dashboard /> },
+          { path: "my-profile", element: <Profile/>}
         ],
       },
       { path: "login", element: <LoginForm /> },
