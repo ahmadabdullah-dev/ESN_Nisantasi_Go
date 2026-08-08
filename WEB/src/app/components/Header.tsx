@@ -11,7 +11,8 @@ import TemporaryDrawer from "./TemporaryDrawer";
 import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/" },
+  { label: "Dashboard", href: "/" },
+  { label: "Plans", href: "/plans" },
   { label: "My Profile", href: "/my-profile" },
 ];
 
