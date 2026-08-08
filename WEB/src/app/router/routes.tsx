@@ -7,6 +7,7 @@ import RequireAuth from "./RequireAuth";
 import AdminDashboard from "../../features/admin/AdminDashboard";
 import Dashboard from "../components/Dashboard";
 import Profile from "../../features/user/My-Profile";
+import Plans from "../../features/plan/Plans";
 
 export const routes = createBrowserRouter([
   {
@@ -14,13 +15,15 @@ export const routes = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Navigate to="/" replace /> },
+      { index: true, element: <Navigate to="/dashboard" replace /> },
        {
         element: <RequireAuth />,
         children: [
           { path: "admin", element: <AdminDashboard /> },
           { path: "dashboard", element: <Dashboard /> },
-          { path: "my-profile", element: <Profile/>}
+          { path: "my-profile", element: <Profile/>},
+          { path: "plans", element: <Plans/>}
+
         ],
       },
       { path: "login", element: <LoginForm /> },

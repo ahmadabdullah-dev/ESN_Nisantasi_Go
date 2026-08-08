@@ -6,3 +6,9 @@ locationName: string,
 description: string,
 plannedAt: string,
 }
+export type AddPlanDto = {
+title: string,
+locationName: string,
+description: string,
+plannedAt: string
+}
