@@ -17,8 +17,18 @@ export const useAuth = () => {
       navigate("/dashboard");
     },
   });
- 
+  
+  const logoutAsync = useMutation({
+      mutationFn: async () => {
+      await agent.post("/auth/logout");
+    },
+    onSuccess: async () => {
+      await queryClient.removeQueries({ queryKey: ["currentUser"] });
+      navigate("/");
+    },
+   });
   return {
     loginAsync,
+    logoutAsync
   };
 };
