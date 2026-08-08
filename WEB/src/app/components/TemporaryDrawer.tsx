@@ -12,6 +12,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import Footer from "./Footer";
 import theme from "../../lib/theme";
 
@@ -28,6 +29,7 @@ export interface DrawerProps {
 export default function TemporaryDrawer({ items }: DrawerProps) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const navigate = useNavigate();
   const toggleDrawer = (next: boolean) => () => setOpen(next);
 
   return (
@@ -93,7 +95,9 @@ export default function TemporaryDrawer({ items }: DrawerProps) {
               sx={{
                 color: "text.primary",
                 borderRadius: 0,
-                "&:hover": { backgroundColor: `${theme.palette.background.paper}` },
+                "&:hover": {
+                  backgroundColor: `${theme.palette.background.paper}`,
+                },
               }}
             >
               <CloseIcon />
@@ -110,7 +114,8 @@ export default function TemporaryDrawer({ items }: DrawerProps) {
                   onMouseLeave={() => setActiveIndex(null)}
                   onClick={() => {
                     item.onClick?.();
-                    if (item.href) window.location.href = item.href;
+                    if (item.href) navigate(item.href);
+                    setOpen(false);
                   }}
                   sx={(theme) => ({
                     px: 3,
@@ -145,7 +150,7 @@ export default function TemporaryDrawer({ items }: DrawerProps) {
             ))}
           </List>
         </Box>
-        <Footer/>
+        <Footer />
       </Drawer>
     </>
   );

@@ -16,9 +16,9 @@ createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <RouterProvider router={routes} />
-    </LocalizationProvider>;
+    </LocalizationProvider>
       </QueryClientProvider>
     </ThemeProvider>
   </StrictMode>,
-);
+)
 

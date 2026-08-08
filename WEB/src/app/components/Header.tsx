@@ -6,12 +6,13 @@ import {
   Stack,
   Link as MuiLink,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router";
 import TemporaryDrawer from "./TemporaryDrawer";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
+
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "My Profile", href: "/my-profile" },
-
 ];
 
 export default function Header() {
@@ -29,7 +30,9 @@ export default function Header() {
       position="fixed"
       elevation={0}
       sx={(theme) => ({
-        backgroundColor: scrolled ? `${theme.palette.background.paper}`: "transparent",
+        backgroundColor: scrolled
+          ? `${theme.palette.background.paper}`
+          : "transparent",
         backdropFilter: scrolled ? "blur(8px)" : "none",
         borderBottom: `1px solid ${scrolled ? theme.palette.divider : "transparent"}`,
         transition: "background-color 200ms ease, border-color 200ms ease",
@@ -46,8 +49,8 @@ export default function Header() {
         }}
       >
         <Typography
-          component="a"
-          href="/"
+          component={RouterLink}
+          to="/"
           sx={{
             color: "text.primary",
             fontWeight: 700,
@@ -68,7 +71,8 @@ export default function Header() {
           {NAV_LINKS.map((link) => (
             <MuiLink
               key={link.label}
-              href={link.href}
+              component={RouterLink}
+              to={link.href}
               underline="none"
               sx={{
                 color: "text.primary",
