@@ -47,6 +47,7 @@ public class PlanRepository : IPlanRepository
     public async Task<PagedList<PlanProjection>> GetPlansAsync(PaginationParams p, CancellationToken ct = default)
     {
         var query = _appDbContext.Plans
+            .OrderByDescending(x => x.PlannedAt)
             .AsNoTracking()
             .Select(x => new PlanProjection
             {

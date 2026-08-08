@@ -1,5 +1,9 @@
+import Plans from "../../features/plan/Plans";
+
 export default function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <div>
+      <Plans/>
+    </div>
   )
 }
