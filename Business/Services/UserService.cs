@@ -50,7 +50,7 @@ public class UserService : IUserService
             IsActive = user.IsActive,
             Country = user.Country,
             Department = user.Department,
-
+            Role = role,
         };
         return Result<UserDto>.Success(userDto);
     }

@@ -7,4 +7,5 @@ export interface UserDto {
   department: string
   isActive: boolean
   email: string
+  role: string
 }
