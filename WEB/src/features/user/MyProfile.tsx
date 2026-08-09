@@ -99,12 +99,25 @@ export default function MyProfile() {
 
           <Stack spacing={2.5}>
             <ProfileField label="Email" value={currentUser.data.email} />
-            <Stack direction="row" spacing={4}>
+            <Stack direction="row">
               <Box sx={{ flex: 1 }}>
-                <ProfileField label="Country" value={currentUser.data.country} />
-              </Box>
+                <ProfileField
+                  label="Country"
+                  value={currentUser.data.country}
+                />
+              </Box>{" "}
+             
               <Box sx={{ flex: 1 }}>
-                <ProfileField label="Department" value={currentUser.data.department} />
+                <ProfileField
+                  label="Department"
+                  value={currentUser.data.department}
+                />
+              </Box> 
+              <Box sx={{ flex: 1 }}>
+                <ProfileField
+                  label="Role"
+                  value={currentUser.data.role}
+                />
               </Box>
             </Stack>
           </Stack>

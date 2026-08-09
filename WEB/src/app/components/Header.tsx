@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 const NAV_LINKS = [
   { label: "Dashboard", href: "/" },
   { label: "Plans", href: "/plans" },
-  { label: "My Profile", href: "/my-profile" },
+  { label: "Settings", href: "/settings" },
 ];
 
 export default function Header() {
