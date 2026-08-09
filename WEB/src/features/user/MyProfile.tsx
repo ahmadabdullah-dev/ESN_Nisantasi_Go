@@ -105,7 +105,7 @@ export default function MyProfile() {
                   label="Country"
                   value={currentUser.data.country}
                 />
-              </Box>{" "}
+              </Box>
              
               <Box sx={{ flex: 1 }}>
                 <ProfileField
