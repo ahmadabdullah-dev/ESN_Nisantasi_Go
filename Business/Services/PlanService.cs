@@ -150,6 +150,11 @@ public class PlanService : IPlanService
         if (plan == null)
             return Result<string>.Failure("Plan not found", 404);
 
+        var alreadyJoined = await _planRepository.IsParticipantAsync(planId, currentUserId, ct);
+
+        if (alreadyJoined)
+           return Result<string>.Failure("Already joined to this plan", 409);
+
         var ppEntity = new PlanParticipant()
         {
             PlanId = planId,

@@ -73,6 +73,11 @@ public class PlanRepository : IPlanRepository
         await _appDbContext.SaveChangesAsync(ct);
         return pp.Id;
     }
-    public async 
+    public async Task<bool> IsParticipantAsync(string planId, string userId, CancellationToken ct = default)
+    {
+        return await _appDbContext.PlanParticipants
+            .AsNoTracking()
+            .AnyAsync(pp => pp.PlanId == planId && pp.ParticipantId == userId, ct);
+    }
 
 }
