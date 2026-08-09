@@ -1,8 +1,8 @@
 export type RegisterUserDto = {
-    FirstName: string,
-    LastName: string,
-    Email: string,
-    Country: string,
-    Department: string,
-    Password: string
+    firstName: string,
+    lastName: string,
+    email: string,
+    country: string,
+    department: string,
+    password: string
 }
