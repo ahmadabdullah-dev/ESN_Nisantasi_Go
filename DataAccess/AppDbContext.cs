@@ -9,9 +9,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
 
     public DbSet<Plan> Plans => Set<Plan>();
     public DbSet<PlanParticipant> PlanParticipants => Set<PlanParticipant>();
-    public DbSet<Chat> Chats => Set<Chat>();
-    public DbSet<ChatParticipant> ChatParticipants => Set<ChatParticipant>();
-    public DbSet<Message> Messages => Set<Message>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -39,16 +36,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
             e.HasIndex(p => p.PlannedAt);
         });
 
-        builder.Entity<Chat>(e =>
-        {
-            e.HasOne(c => c.Plan)
-                .WithOne(p => p.Chat)
-                .HasForeignKey<Chat>(c => c.PlanId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            e.HasIndex(c => c.PlanId).IsUnique();
-        });
-
         builder.Entity<PlanParticipant>(e =>
         {
             e.HasIndex(pp => new { pp.PlanId, pp.ParticipantId }).IsUnique();
@@ -64,36 +51,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
-        builder.Entity<ChatParticipant>(e =>
-        {
-            e.HasIndex(cp => new { cp.ChatId, cp.ParticipantId }).IsUnique();
-
-            e.HasOne(cp => cp.Chat)
-                .WithMany(c => c.Participants)
-                .HasForeignKey(cp => cp.ChatId)
-                .OnDelete(DeleteBehavior.Cascade); 
-
-            e.HasOne(cp => cp.Participant)
-                .WithMany()
-                .HasForeignKey(cp => cp.ParticipantId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        builder.Entity<Message>(e =>
-        {
-            e.Property(m => m.Content).HasMaxLength(2000).IsRequired();
-
-            e.HasOne(m => m.Chat)
-                .WithMany(c => c.Messages)
-                .HasForeignKey(m => m.ChatId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            e.HasOne(m => m.Sender)
-                .WithMany()
-                .HasForeignKey(m => m.SenderId)
-                .OnDelete(DeleteBehavior.Restrict); 
-
-            e.HasIndex(m => new { m.ChatId, m.SentAt }); 
-        });
+      
     }
 }

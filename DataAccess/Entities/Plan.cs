@@ -11,5 +11,4 @@ public class Plan
     public required DateTime PlannedAt { get; set; }
 
     public ICollection<PlanParticipant> Participants { get; set; } = new List<PlanParticipant>();
-    public Chat? Chat { get; set; }
 }
