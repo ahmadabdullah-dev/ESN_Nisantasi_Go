@@ -33,5 +33,6 @@ dotnet ef migrations add Mig_1 `
 **Apply migrations:**
 
 ```powershell
-dotnet ef database update `
+ dotnet ef database update `
   --project .\DataAccess\DataAccess.csproj `
+  --startup-project .\API\API.csproj
