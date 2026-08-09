@@ -8,4 +8,5 @@ public interface IPlanRepository
     Task<bool> UpdatePlanAsync(Plan plan, CancellationToken ct);
     Task<PagedList<PlanProjection>> GetPlansAsync(PaginationParams p,CancellationToken ct);
     Task<Plan?> GetPlanEntityByIdAsync(string id,CancellationToken ct);
+    Task<string> JoinPlanAsync(PlanParticipant pp,CancellationToken ct);
 }

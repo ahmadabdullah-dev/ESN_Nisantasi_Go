@@ -82,7 +82,10 @@ public class PlanService : IPlanService
     public async Task<Result<string>> UpdatePlanAsync(UpdatePlanDto dto, CancellationToken ct)
     {
         var currentUserId =  _userService.GetCurrentUserId();
-
+      
+        if (currentUserId == null)
+            return Result<string>.Failure("Unauthorized perform", 401);
+      
         var plan = await _planRepository.GetPlanEntityByIdAsync(dto.PlanId, ct);
 
         if (plan == null)
@@ -113,7 +116,10 @@ public class PlanService : IPlanService
     public async Task<Result<string>> DeletePlanByIdAsync(string id, CancellationToken ct)
     {
         var currentUserId = _userService.GetCurrentUserId();
-    
+
+        if (currentUserId == null)
+            return Result<string>.Failure("Unauthorized perform", 401);
+
         var plan = await _planRepository.GetPlanEntityByIdAsync(id, ct);
        
         if (plan == null)
@@ -131,5 +137,30 @@ public class PlanService : IPlanService
 
         return Result<string>.Success("Plan deleted successfully");
 
+    }
+    public async Task<Result<string>> JoinPlanAsync(string planId, CancellationToken ct)
+    {
+        var currentUserId = _userService.GetCurrentUserId();
+       
+        if (currentUserId == null)
+            return Result<string>.Failure("Unauthorized perform", 401);
+
+        var plan = await _planRepository.GetPlanEntityByIdAsync(planId, ct);
+        
+        if (plan == null)
+            return Result<string>.Failure("Plan not found", 404);
+
+        var ppEntity = new PlanParticipant()
+        {
+            PlanId = planId,
+            ParticipantId = currentUserId,
+            JoinedAt = DateTime.UtcNow,
+        };
+        var ppId = await _planRepository.JoinPlanAsync(ppEntity, ct);
+
+        return ppId == null
+        ? Result<string>.Failure("Unexpected error happened", 400)
+        : Result<string>.Success($"Joined to {plan.Title} succeessfully");
+        
     }
 }

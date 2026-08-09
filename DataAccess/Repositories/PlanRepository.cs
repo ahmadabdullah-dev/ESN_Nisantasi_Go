@@ -67,4 +67,12 @@ public class PlanRepository : IPlanRepository
             .Include(x => x.Creator)
             .FirstOrDefaultAsync(x => x.Id == Id, ct);
     }
+    public async Task<string> JoinPlanAsync(PlanParticipant pp, CancellationToken ct = default)
+    {
+        await _appDbContext.PlanParticipants.AddAsync(pp);
+        await _appDbContext.SaveChangesAsync(ct);
+        return pp.Id;
+    }
+    public async 
+
 }

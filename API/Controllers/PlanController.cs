@@ -43,4 +43,10 @@ public class PlanController: BaseApiController
         var result = await _planService.DeletePlanByIdAsync(id, ct);
         return HandleResult(result);
     }
+    [HttpPost("join-plan")]
+    public async Task<ActionResult> JoinPlan(string id,CancellationToken ct)
+    {
+        var result = await _planService.JoinPlanAsync(id, ct);
+        return HandleResult(result);
+    }
 }
