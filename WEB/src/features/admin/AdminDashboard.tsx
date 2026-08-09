@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useCurrentUser } from "../../lib/hooks/useUser";
-import RegisterAdmin from "./Register/RegisterADmin";
+import RegisterAdmin from "./Register/RegisterAdmin";
 import RegisterMember from "./Register/RegisterMember";
 
 export default function AdminDashboard() {

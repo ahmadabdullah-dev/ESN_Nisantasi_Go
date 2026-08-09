@@ -35,8 +35,6 @@ export default function RegisterMember() {
       },
       onError: () => {
         resetField("password");
-         console.log("mutation error:", registerMember.error);
-         console.log("response data:", registerMember.error?.message);
       },
     });
   };
