@@ -10,4 +10,6 @@ public interface IPlanRepository
     Task<Plan?> GetPlanEntityByIdAsync(string id, CancellationToken ct);
     Task<string> JoinPlanAsync(PlanParticipant pp, CancellationToken ct);
     Task<bool> IsParticipantAsync(string planId, string userId, CancellationToken ct);
+    Task<bool> LeavePlanAsync(PlanParticipant pp, CancellationToken ct);
+    Task<PlanParticipant?> GetPlanParticipantAsync(string userId,string planId, CancellationToken ct);
 }

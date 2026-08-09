@@ -79,5 +79,15 @@ public class PlanRepository : IPlanRepository
             .AsNoTracking()
             .AnyAsync(pp => pp.PlanId == planId && pp.ParticipantId == userId, ct);
     }
-
+    public async Task<bool> LeavePlanAsync(PlanParticipant plan, CancellationToken ct = default)
+    {
+        _appDbContext.PlanParticipants.Remove(plan);
+        return await _appDbContext.SaveChangesAsync(ct) > 0;    
+    }
+    public async Task<PlanParticipant?> GetPlanParticipantAsync(string userId, string planId, CancellationToken ct = default)
+    {
+       return await _appDbContext.PlanParticipants
+                   .Include(x => x.Plan)
+            .FirstOrDefaultAsync(x => x.ParticipantId == userId && x.PlanId == planId, ct);
+    } 
 }

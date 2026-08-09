@@ -49,6 +49,7 @@ public class PlanService : IPlanService
         try
         {
             await _planRepository.AddPlanAsync(plan,ct);
+            await JoinPlanAsync(plan.Id, ct);
             return Result<string>.Success("Plan added succcessfully");
         }
         catch
@@ -127,16 +128,16 @@ public class PlanService : IPlanService
        
         if (plan.Creator.Id != currentUserId)
             return Result<string>.Failure("Plan can only be deleted by the creator", 403);
-
-        var isDeleted = await _planRepository.RemovePlanAsync(plan,ct);
-
-        if(!isDeleted)
+        try
+        {
+             await LeavePlanAsync(plan.Id, ct);
+             await _planRepository.RemovePlanAsync(plan,ct);
+             return Result<string>.Success("Plan deleted successfully");
+        }
+        catch
+        {         
             return Result<string>.Failure("Unexpected errror happened", 400);
-
-        
-
-        return Result<string>.Success("Plan deleted successfully");
-
+        }
     }
     public async Task<Result<string>> JoinPlanAsync(string planId, CancellationToken ct)
     {
@@ -167,5 +168,29 @@ public class PlanService : IPlanService
         ? Result<string>.Failure("Unexpected error happened", 400)
         : Result<string>.Success($"Joined to {plan.Title} succeessfully");
         
+    }
+    public async Task<Result<string>> LeavePlanAsync(string planId, CancellationToken ct)
+    {
+        var currentUserId = _userService.GetCurrentUserId();
+        if (currentUserId == null)
+            return Result<string>.Failure("Unauthorized", 401);
+
+        var pp = await _planRepository.GetPlanParticipantAsync(currentUserId, planId, ct);
+        if (pp == null)
+            return Result<string>.Failure("No participation found", 404);
+
+        try
+        {
+            await _planRepository.LeavePlanAsync(pp, ct);
+
+            if (pp.Plan.CreatorId == currentUserId)
+                await DeletePlanByIdAsync(pp.PlanId, ct);
+
+            return Result<string>.Success("Left successfully");
+        }
+        catch 
+        {
+            return Result<string>.Failure("Unexpected error happened", 400);
+        }
     }
 }

@@ -49,4 +49,10 @@ public class PlanController: BaseApiController
         var result = await _planService.JoinPlanAsync(id, ct);
         return HandleResult(result);
     }
+    [HttpPost("leave-plan")]
+    public async Task<ActionResult> LeavePlan(string id, CancellationToken ct)
+    {
+        var result = await _planService.LeavePlanAsync(id, ct);
+        return HandleResult(result);
+    }
 }
