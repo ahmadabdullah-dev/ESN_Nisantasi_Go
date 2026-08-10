@@ -193,4 +193,15 @@ public class PlanService : IPlanService
             return Result<string>.Failure("Unexpected error happened", 400);
         }
     }
+    public async Task<Result<bool>> IsPlanParticipatedAsync(string planId, CancellationToken ct)
+    {
+        var currentUserId = _userService.GetCurrentUserId();
+
+        if (currentUserId == null)
+            return Result<bool>.Failure("Unauthorized", 403);
+
+        var isParticipated = await _planRepository.IsPlanParticipatedAsync(planId, currentUserId, ct);
+
+        return Result<bool>.Success(isParticipated);
+    }
 }

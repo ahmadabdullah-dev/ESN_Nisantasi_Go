@@ -89,5 +89,10 @@ public class PlanRepository : IPlanRepository
        return await _appDbContext.PlanParticipants
                    .Include(x => x.Plan)
             .FirstOrDefaultAsync(x => x.ParticipantId == userId && x.PlanId == planId, ct);
-    } 
+    }
+    public async Task<bool> IsPlanParticipatedAsync(string planId, string userId, CancellationToken ct = default)
+    {
+        return await _appDbContext.PlanParticipants.AnyAsync(x => x.PlanId == planId && x.ParticipantId == userId,ct);
+    }   
+        
 }

@@ -8,4 +8,5 @@ public interface IPlanService
     Task<Result<string>> DeletePlanByIdAsync(string id, CancellationToken ct);
     Task<Result<string>> JoinPlanAsync(string planId, CancellationToken ct);
     Task<Result<string>> LeavePlanAsync(string planId, CancellationToken ct);
+    Task<Result<bool>> IsPlanParticipatedAsync(string planId, CancellationToken ct);
 }

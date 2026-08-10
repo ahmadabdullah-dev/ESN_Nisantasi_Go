@@ -55,4 +55,10 @@ public class PlanController: BaseApiController
         var result = await _planService.LeavePlanAsync(id, ct);
         return HandleResult(result);
     }
+    [HttpGet("is-participated")]
+    public async Task<ActionResult> IsPlanParticipated(string plandId, CancellationToken ct)
+    {
+        var result = await _planService.IsPlanParticipatedAsync(plandId, ct);
+        return HandleResult(result);
+    }
 }
