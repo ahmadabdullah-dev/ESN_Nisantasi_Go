@@ -43,20 +43,21 @@ public class PlanController: BaseApiController
         var result = await _planService.DeletePlanByIdAsync(id, ct);
         return HandleResult(result);
     }
-    [HttpPost("join")]
-    public async Task<ActionResult> JoinPlan(string id,CancellationToken ct)
+    [HttpPost("join/{id}")]
+    public async Task<ActionResult> JoinPlan([FromRoute] string id, CancellationToken ct)
     {
         var result = await _planService.JoinPlanAsync(id, ct);
         return HandleResult(result);
     }
-    [HttpPost("leave")]
-    public async Task<ActionResult> LeavePlan(string id, CancellationToken ct)
+
+    [HttpPost("leave/{id}")]
+    public async Task<ActionResult> LeavePlan([FromRoute] string id, CancellationToken ct)
     {
         var result = await _planService.LeavePlanAsync(id, ct);
         return HandleResult(result);
     }
-    [HttpGet("is-participated")]
-    public async Task<ActionResult> IsPlanParticipated(string plandId, CancellationToken ct)
+    [HttpGet("is-participated/{plandId}")]
+    public async Task<ActionResult> IsPlanParticipated([FromRoute] string plandId, CancellationToken ct)
     {
         var result = await _planService.IsPlanParticipatedAsync(plandId, ct);
         return HandleResult(result);
