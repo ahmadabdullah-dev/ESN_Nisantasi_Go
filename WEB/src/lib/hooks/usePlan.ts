@@ -18,9 +18,22 @@ const addPlanAsync = useMutation({
     return response.data;
   },
 });
-
+const joinPlan = useMutation({
+  mutationFn: async (id: string) => {
+    const response = await agent.post("/Plan/join", id);
+    return response.data;
+  },
+});
+const leavePlan = useMutation({
+  mutationFn: async (id: string) => {
+    const response = await agent.post("/Plan/leave", id);
+    return response.data;
+  },
+});
   return {
     getPlansAsync,
-    addPlanAsync
+    addPlanAsync,
+    joinPlan,
+    leavePlan
   };
 };

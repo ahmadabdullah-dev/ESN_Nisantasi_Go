@@ -10,4 +10,5 @@ public class UserDto
     public string Country { get; set; } = null!;
     public string Department { get; set; } = null!;
     public bool IsActive { get; set; }
+    public string Role { get; set; } = null!;
 }
