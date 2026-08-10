@@ -11,6 +11,7 @@ import PlansDashboard from "../../features/plan/PlansDashboard";
 import AddPlan from "../../features/plan/AddPlan";
 import RequireAdminRole from "./RequireAdminRole";
 import SettingsDashboard from "../../features/settings/SettingsDashboard";
+import PlanDetails from "../../features/plan/PlanDetails";
 
 export const routes = createBrowserRouter([
   {
@@ -22,14 +23,16 @@ export const routes = createBrowserRouter([
       {
         element: <RequireAuth />,
         children: [
-          {element: <RequireAdminRole/>, children: [
-            { path: "admin", element: <AdminDashboard /> },
-          ]},
+          {
+            element: <RequireAdminRole />,
+            children: [{ path: "admin", element: <AdminDashboard /> }],
+          },
           { path: "dashboard", element: <Dashboard /> },
           { path: "settings", element: <SettingsDashboard /> },
           { path: "profile/:username", element: <Profile /> },
           { path: "plans", element: <PlansDashboard /> },
           { path: "plans/add", element: <AddPlan /> },
+          { path: "plans/:id", element: <PlanDetails /> },
         ],
       },
       { path: "login", element: <LoginForm /> },

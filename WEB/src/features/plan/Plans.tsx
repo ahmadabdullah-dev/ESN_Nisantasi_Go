@@ -138,7 +138,7 @@ export default function Plans() {
                     endIcon={<BoltIcon />}
                     onClick={() => navigate(`/plans/${p.id}`)}
                   >
-                    I'm In
+                  Details...
                   </Button>
                 </Box>
               </Card>
