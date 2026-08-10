@@ -13,4 +13,5 @@ public interface IPlanRepository
     Task<bool> LeavePlanAsync(PlanParticipant pp, CancellationToken ct);
     Task<PlanParticipant?> GetPlanParticipantAsync(string userId,string planId, CancellationToken ct);
     Task<bool> IsPlanParticipatedAsync(string planId, string userId, CancellationToken ct);
+    Task<PagedList<PlanProjection>> GetUserPlansAsync(string userId, PaginationParams p, CancellationToken ct);
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace DataAccess.Repositories;
 
@@ -93,6 +94,24 @@ public class PlanRepository : IPlanRepository
     public async Task<bool> IsPlanParticipatedAsync(string planId, string userId, CancellationToken ct = default)
     {
         return await _appDbContext.PlanParticipants.AnyAsync(x => x.PlanId == planId && x.ParticipantId == userId,ct);
-    }   
-        
+    }
+    public async Task<PagedList<PlanProjection>> GetUserPlansAsync(string userId, PaginationParams p, CancellationToken ct = default)
+    {
+        var query = _appDbContext.PlanParticipants
+            .Where(x => x.ParticipantId == userId)
+            .OrderByDescending(x => x.JoinedAt)
+            .AsNoTracking()
+            .Select(x => new PlanProjection
+            {
+                Id = x.Plan.Id,    
+                Title = x.Plan.Title,
+                CreatorUserName = x.Plan.Creator.UserName!,
+                Description = x.Plan.Description,
+                LocationName = x.Plan.LocationName,
+                PlannedAt = x.Plan.PlannedAt,
+            });    
+      // Console.WriteLine(query);
+
+        return await PagedList<PlanProjection>.CreateAsync(query,p.Page,p.PageSize, ct);
+    }
 }
