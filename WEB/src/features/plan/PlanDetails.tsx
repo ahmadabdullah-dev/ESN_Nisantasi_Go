@@ -6,9 +6,8 @@ import {
   Card,
   CardContent,
   Chip,
+  CircularProgress,
   Container,
-  Grid,
-  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
@@ -16,23 +15,27 @@ import PersonOutlineIcon from "@mui/icons-material/Person4Outlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { Shared } from "../../lib/shared";
+import PlanJoinLeaveButtons from "./PlanJoinLeaveButtons";
 
 export default function PlanDetails() {
   const { id } = useParams<{ id: string }>();
   const { data: plan, isLoading, error } = usePlanById(id ?? "");
 
-  if (isLoading) {
+  if (!id) {
     return (
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Skeleton variant="text" width={160} height={56} sx={{ mb: 4 }} />
-        <Grid container spacing={3}>
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Grid key={i} size={{ xs: 12, sm: 6, md: 4 }}>
-              <Skeleton variant="rectangular" height={220} />
-            </Grid>
-          ))}
-        </Grid>
+        <Alert severity="error" variant="outlined">
+          Invalid plan link.
+        </Alert>
       </Container>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
+        <CircularProgress />
+      </Box>
     );
   }
 
@@ -46,23 +49,15 @@ export default function PlanDetails() {
     );
   }
 
-  if (!plan) {
-    return (
-      <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
-        <Alert severity="info">Plan not found.</Alert>
-      </Box>
-    );
-  }
-
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Card>
+    <Container sx={{ py: 8 }}>
+      <Card sx={{width:1}}>
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5 }}>
-            {plan.title}
+            {plan?.title}
           </Typography>
 
-          {plan.description && (
+          {plan?.description && (
             <Typography
               variant="body2"
               sx={{
@@ -74,8 +69,8 @@ export default function PlanDetails() {
             </Typography>
           )}
 
-          <Stack spacing={1} sx={{ mb: plan.creatorUserName ? 2 : 0 }}>
-            {plan.locationName && (
+          <Stack spacing={1} sx={{ mb: plan?.creatorUserName ? 2 : 0 }}>
+            {plan?.locationName && (
               <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
                 <PlaceOutlinedIcon
                   fontSize="small"
@@ -99,12 +94,12 @@ export default function PlanDetails() {
                 sx={{ color: "text.secondary" }}
               />
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {Shared.formatDate(plan.plannedAt) ?? "Date not set"}
+                {Shared.formatDate(plan?.plannedAt) ?? "Date not set"}
               </Typography>
             </Stack>
           </Stack>
 
-          {plan.creatorUserName && (
+          {plan?.creatorUserName && (
             <Chip
               size="small"
               variant="outlined"
@@ -113,6 +108,10 @@ export default function PlanDetails() {
               sx={{ maxWidth: "100%" }}
             />
           )}
+
+          <Box sx={{ mt: 2 }}>
+            <PlanJoinLeaveButtons planId ={id} />
+          </Box>
         </CardContent>
       </Card>
     </Container>
