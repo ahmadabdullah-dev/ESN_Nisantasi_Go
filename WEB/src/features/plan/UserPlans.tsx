@@ -9,7 +9,6 @@ import {
   Card,
   CardContent,
   Chip,
-  Container,
   Grid,
   Pagination,
   Skeleton,
@@ -42,7 +41,7 @@ export default function UserPlans({ userId }: UserPlansProps) {
 
   if (data.isPending) {
     return (
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Box sx={{ width: "100%" }}>
         <Skeleton variant="text" width={160} height={56} sx={{ mb: 4 }} />
         <Grid container spacing={3}>
           {Array.from({ length: 6 }).map((_, i) => (
@@ -51,34 +50,30 @@ export default function UserPlans({ userId }: UserPlansProps) {
             </Grid>
           ))}
         </Grid>
-      </Container>
+      </Box>
     );
   }
 
   if (data.isError) {
     return (
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Alert severity="error" variant="outlined">
-          Something went wrong while loading plans. Please try again.
-        </Alert>
-      </Container>
+      <Alert severity="error" variant="outlined">
+        Something went wrong while loading plans. Please try again.
+      </Alert>
     );
   }
 
   if (!data.data) {
     return (
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Alert severity="info" variant="outlined">
-          No plans found.
-        </Alert>
-      </Container>
+      <Alert severity="info" variant="outlined">
+        No plans found.
+      </Alert>
     );
   }
 
   const list = data.data;
 
   return (
-    <Container maxWidth="lg" sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%" }}>
       <Typography variant="h4" sx={{ mb: 4, fontWeight: 700 }}>
         Plans
       </Typography>
@@ -88,10 +83,10 @@ export default function UserPlans({ userId }: UserPlansProps) {
           No plans found.
         </Alert>
       ) : (
-        <Grid container>
+        <Grid container spacing={3}>
           {list.items.map((p) => (
-            <Grid key={p.id ?? p.title}>
-              <Card variant="outlined">
+            <Grid key={p.id ?? p.title} size={{ xs: 12, sm: 6, md: 4 }}>
+              <Card variant="outlined" sx={{ height: "100%" }}>
                 <CardContent>
                   <Typography
                     variant="subtitle1"
@@ -183,6 +178,6 @@ export default function UserPlans({ userId }: UserPlansProps) {
           />
         </Box>
       )}
-    </Container>
+    </Box>
   );
 }

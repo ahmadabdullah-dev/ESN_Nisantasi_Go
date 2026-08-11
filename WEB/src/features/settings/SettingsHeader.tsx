@@ -9,7 +9,7 @@ export default function SettingsHeader() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-    
+        p:2
       }}
     >
       <Typography variant="h5" sx={{ fontWeight: 600 }}>

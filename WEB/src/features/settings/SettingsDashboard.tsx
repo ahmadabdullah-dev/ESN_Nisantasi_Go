@@ -7,7 +7,7 @@ export default function SettingsDashboard() {
   const currentUser = useCurrentUser();
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
+    <Container sx={{ py: 4 }}>
       <SettingsHeader />
 
       {currentUser.isLoading ? (
