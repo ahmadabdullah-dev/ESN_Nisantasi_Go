@@ -1,5 +1,6 @@
-export interface UserDto {
-  profilePhotoPublicId: string | null
+export type UserDto  = {
+  id: string,
+  profilePhotoPublicId: string 
   userName: string
   firstName: string
   lastName: string
@@ -7,5 +8,10 @@ export interface UserDto {
   department: string
   isActive: boolean
   email: string
-  role: string
 }
+export type CurrentUserDto = {
+  id: string;
+  userName: string;
+  isActive: string;
+  role: string
+};

@@ -9,7 +9,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router";
 import { useGetUserByUsername } from "../../lib/hooks/useUser";
 
 interface ProfileFieldProps {
@@ -30,15 +29,14 @@ function ProfileField({ label, value }: ProfileFieldProps) {
   );
 }
 
-export default function Profile() {
-  const { username } = useParams<{ username: string }>();
-  const {
-    data: user,
-    isLoading,
-    isError,
-  } = useGetUserByUsername(username ?? "");
+export interface ProfileProps {
+  userName: string;
+}
 
-  if (isLoading) {
+export default function Profile({ userName }: ProfileProps) {
+  const currentUser = useGetUserByUsername(userName);
+
+  if (currentUser.isLoading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
         <CircularProgress />
@@ -46,14 +44,25 @@ export default function Profile() {
     );
   }
 
-  if (isError || !user) {
+  if (currentUser.isError) {
     return (
       <Box sx={{ mt: 6, textAlign: "center" }}>
-        <Typography color="text.secondary">Profile not found.</Typography>
+        <Typography color="error">
+          Failed to load profile. Please try again.
+        </Typography>
       </Box>
     );
   }
 
+  if (!currentUser.data) {
+    return (
+      <Box sx={{ mt: 6, textAlign: "center" }}>
+        <Typography color="text.secondary">No profile data found.</Typography>
+      </Box>
+    );
+  }
+
+  const user = currentUser.data;
   const fullName = [user.firstName, user.lastName].filter(Boolean).join(" ");
 
   return (
@@ -74,14 +83,10 @@ export default function Profile() {
             sx={{ alignItems: "center", textAlign: "center" }}
           >
             <Avatar
-              src={
-                user.profilePhotoPublicId
-                  ? `https://res.cloudinary.com/CLOUD_NAME/image/upload/${user.profilePhotoPublicId}`
-                  : undefined
-              }
+              src={user.profilePhotoPublicId || undefined}
               sx={{ width: 88, height: 88, fontSize: 32 }}
             >
-              {fullName?.[0] || user.userName?.[0]}
+              {fullName[0] || user.userName?.[0]}
             </Avatar>
 
             <Box>
@@ -105,7 +110,7 @@ export default function Profile() {
 
           <Stack spacing={2.5}>
             <ProfileField label="Email" value={user.email} />
-            <Stack direction="row" spacing={4}>
+            <Stack direction="row">
               <Box sx={{ flex: 1 }}>
                 <ProfileField label="Country" value={user.country} />
               </Box>
