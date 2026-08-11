@@ -42,10 +42,10 @@ public class DataSeeder
                 Email = "superadmin1@test.com",
                 EmailConfirmed = true,
                 IsActive = true,
-                FirstName = "Ahmet",
-                LastName = "Abdullah",
-                Country = "Syria",
-                Department = "Software Engineering",
+                FirstName = "SuperAdmin",
+                LastName = "User",
+                Country = "World",
+                Department = "IT",
                 CreatedAt = DateTime.UtcNow.AddMonths(-13)
             }, "SuperAdmin"),
 
@@ -55,10 +55,10 @@ public class DataSeeder
                 Email = "admin1@test.com",
                 EmailConfirmed = true,
                 IsActive = true,
-                FirstName = "Doga",
-                LastName = "Erip",
-                Country = "Turkey",
-                Department = "Architecture",
+                FirstName = "Admin",
+                LastName = "User",
+                Country = "World",
+                Department = "Design",
                 CreatedAt = DateTime.UtcNow.AddMonths(-6)
             }, "Admin"),
 
@@ -68,10 +68,10 @@ public class DataSeeder
                 Email = "member1@test.com",
                 EmailConfirmed = true,
                 IsActive = true,
-                FirstName = "Marcus",
-                LastName = "Aurelius",
-                Country = "Greece",
-                Department = "Philosophy",
+                FirstName = "Member",
+                LastName = "User",
+                Country = "World",
+                Department = "Marketing",
                 CreatedAt = DateTime.UtcNow.AddMonths(-2)
             }, "Member"),
         };
