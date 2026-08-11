@@ -60,7 +60,7 @@ public class UserService : IUserService
         
         var userDto = new UserDto()
         {
-            Id = userName,
+            Id = user.Id,
             ProfilePhotoPublicId = user.ProfilePhotoPublicId,
             UserName = user.UserName!,
             FirstName = user.FirstName,
