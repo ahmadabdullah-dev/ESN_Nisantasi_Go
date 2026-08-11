@@ -13,3 +13,11 @@ public class UserDto
     public bool IsActive { get; set; }
     public string Role { get; set; } = null!;
 }
+
+public class CurrentUserDto
+{
+    public string Id { get; set; } = null!;
+    public string UserName { get; set; } = null!;
+    public bool IsActive { get; set; }
+    public string Role { get; set; } = null!;
+}
