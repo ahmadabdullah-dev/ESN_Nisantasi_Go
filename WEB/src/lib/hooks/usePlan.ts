@@ -111,3 +111,15 @@ export const useLeavePlan = (planId: string) => {
     },
   });
 };
+
+export function useUserPlans(userId: string, p: PaginationParams) {
+  return useQuery({
+    queryKey: ["user-plans", userId, p],
+    queryFn: async () => {
+      const response = await agent.get(`/plan/user/${userId}`, { params: p });
+      return response.data;
+    },
+    enabled: !!userId,
+    retry: false,
+  });
+}

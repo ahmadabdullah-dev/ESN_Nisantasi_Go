@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useGetUserByUsername } from "../../lib/hooks/useUser";
+import UserPlans from "../plan/UserPlans";
 import { useParams } from "react-router";
 
 interface ProfileFieldProps {
@@ -38,7 +39,7 @@ export default function Profile({ userName: userNameProp }: ProfileProps) {
   const { username: userNameParam } = useParams<{ username: string }>();
   const userName = userNameProp ?? userNameParam;
 
-  const currentUser = useGetUserByUsername(userName ?? "");
+  const user = useGetUserByUsername(userName ?? "");
 
   if (!userName) {
     return (
@@ -48,7 +49,7 @@ export default function Profile({ userName: userNameProp }: ProfileProps) {
     );
   }
 
-  if (currentUser.isLoading) {
+  if (user.isLoading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
         <CircularProgress />
@@ -56,7 +57,7 @@ export default function Profile({ userName: userNameProp }: ProfileProps) {
     );
   }
 
-  if (currentUser.isError) {
+  if (user.isError) {
     return (
       <Box sx={{ mt: 6, textAlign: "center" }}>
         <Typography color="error">
@@ -65,8 +66,9 @@ export default function Profile({ userName: userNameProp }: ProfileProps) {
       </Box>
     );
   }
+ const data = user.data;
 
-  if (!currentUser.data) {
+ if (!data) {
     return (
       <Box sx={{ mt: 6, textAlign: "center" }}>
         <Typography color="text.secondary">No profile data found.</Typography>
@@ -74,8 +76,7 @@ export default function Profile({ userName: userNameProp }: ProfileProps) {
     );
   }
 
-  const user = currentUser.data;
-  const fullName = [user.firstName, user.lastName].filter(Boolean).join(" ");
+  const fullName = [data.firstName, data.lastName].filter(Boolean).join(" ");
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center", mt: 4, px: 2 }}>
@@ -95,42 +96,43 @@ export default function Profile({ userName: userNameProp }: ProfileProps) {
             sx={{ alignItems: "center", textAlign: "center" }}
           >
             <Avatar
-              src={user.profilePhotoPublicId || undefined}
+              src={data.profilePhotoPublicId || undefined}
               sx={{ width: 88, height: 88, fontSize: 32 }}
             >
-              {fullName[0] || user.userName?.[0]}
+              {fullName[0] || data.userName?.[0]}
             </Avatar>
 
             <Box>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                {fullName || user.userName}
+                {fullName || data.userName}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                @{user.userName}
+                @{data.userName}
               </Typography>
             </Box>
 
             <Chip
-              label={user.isActive ? "Active" : "Inactive"}
-              color={user.isActive ? "success" : "default"}
+              label={data.isActive ? "Active" : "Inactive"}
+              color={data.isActive ? "success" : "default"}
               size="small"
-              variant={user.isActive ? "filled" : "outlined"}
+              variant={data.isActive ? "filled" : "outlined"}
             />
           </Stack>
 
           <Divider sx={{ my: 3 }} />
 
           <Stack spacing={2.5}>
-            <ProfileField label="Email" value={user.email} />
+            <ProfileField label="Email" value={data.email} />
             <Stack direction="row">
               <Box sx={{ flex: 1 }}>
-                <ProfileField label="Country" value={user.country} />
+                <ProfileField label="Country" value={data.country} />
               </Box>
               <Box sx={{ flex: 1 }}>
-                <ProfileField label="Department" value={user.department} />
+                <ProfileField label="Department" value={data.department} />
               </Box>
             </Stack>
           </Stack>
+          <UserPlans userId={data.id} />
         </CardContent>
       </Card>
     </Box>
