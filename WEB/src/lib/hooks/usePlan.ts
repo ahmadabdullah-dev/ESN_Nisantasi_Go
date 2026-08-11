@@ -7,9 +7,7 @@ export const usePlan = (pagination?: PaginationParams) => {
   const getPlansAsync = useQuery({
     queryKey: ["plans", pagination?.page, pagination?.pageSize],
     queryFn: async () =>
-      await agent
-        .get<PaginatedList<PlanDto>>("/Plan/paged", { params: pagination })
-        .then((res) => res.data),
+      await agent.get<PaginatedList<PlanDto>>("/Plan/paged", { params: pagination }).then((res) => res.data),
     enabled: !!pagination,
     staleTime: 5 * 60 * 1000,
   });
@@ -30,10 +28,7 @@ export const usePlan = (pagination?: PaginationParams) => {
 export function usePlanById(id: string) {
   return useQuery({
     queryKey: ["plans", id],
-    queryFn: async () =>
-      agent
-        .get<PlanDto>("/plan", { params: { planId: id } })
-        .then((res) => res.data),
+    queryFn: async () => agent.get<PlanDto>("/plan", { params: { planId: id } }).then((res) => res.data),
     staleTime: 5 * 60 * 1000,
     enabled: !!id,
     retry: false,
@@ -43,9 +38,8 @@ export function usePlanById(id: string) {
 export function useIsPlanParticipated(planId: string) {
   return useQuery({
     queryKey: ["plans", planId, "participated"],
-
     queryFn: async () => {
-      const response = await agent.get(`/plan/is-participated/${planId}`);
+      const response = await agent.get<boolean>(`/plan/is-participated/${planId}`);
       return response.data;
     },
     enabled: !!planId,
@@ -79,6 +73,9 @@ export const useJoinPlan = (planId: string) => {
       queryClient.invalidateQueries({
         queryKey: ["plans", planId, "participated"],
       });
+       queryClient.invalidateQueries({
+         queryKey: ["user-plans"],
+       });
     },
   });
 };
@@ -108,15 +105,18 @@ export const useLeavePlan = (planId: string) => {
       queryClient.invalidateQueries({
         queryKey: ["plans", planId, "participated"],
       });
+       queryClient.invalidateQueries({
+         queryKey: ["user-plans"],
+       });
     },
   });
 };
 
-export function useUserPlans(userId: string, p: PaginationParams) {
+export function useUserPlans(userId: string, pagination: PaginationParams) {
   return useQuery({
-    queryKey: ["user-plans", userId, p],
+    queryKey: ["user-plans", userId, pagination],
     queryFn: async () => {
-      const response = await agent.get(`/plan/user/${userId}`, { params: p });
+      const response = await agent.get<PaginatedList<PlanDto>>(`/plan/user/${userId}`, { params: pagination });
       return response.data;
     },
     enabled: !!userId,
