@@ -42,6 +42,7 @@ public class UserService : IUserService
 
         var userDto = new UserDto
         {
+            Id = userId,
             ProfilePhotoPublicId = user.ProfilePhotoPublicId,
             UserName = user.UserName!,
             FirstName = user.FirstName,
@@ -59,12 +60,13 @@ public class UserService : IUserService
     {
 
         var user = await _userManager.FindByNameAsync(userName);
-
+     
         if (user == null)
-            return Result<UserDto>.Failure("User not found", 404);
-
+            return Result<UserDto>.Failure("User not found", 404);   
+        
         var userDto = new UserDto()
         {
+            Id = userName,
             ProfilePhotoPublicId = user.ProfilePhotoPublicId,
             UserName = user.UserName!,
             FirstName = user.FirstName,
@@ -76,5 +78,5 @@ public class UserService : IUserService
         };
         return Result<UserDto>.Success(userDto);
     }
-
+ 
 }

@@ -228,5 +228,27 @@ public class PlanService : IPlanService
         };
         return Result<PagedList<PlanDto>>.Success(dtos);
     }
+    public async Task<Result<PagedList<PlanDto>>> GetUserPlansAsync(string userId, PaginationParams p, CancellationToken ct)
+    {
+     
+        var plans = await _planRepository.GetUserPlansAsync(userId, p, ct);
+      
+        var dtos = new PagedList<PlanDto>
+        {
+            Items = plans.Items.Select(x => new PlanDto
+            {
+                Id = x.Id,
+                CreatorUserName = x.CreatorUserName,
+                Description = x.Description,
+                Title = x.Title,
+                LocationName = x.LocationName,
+                PlannedAt = x.PlannedAt,
+            }).ToList(),
+            CurrentPage = plans.CurrentPage,
+            TotalCount = plans.TotalCount,
+            TotalPages = plans.TotalPages,
+        };
+        return Result<PagedList<PlanDto>>.Success(dtos);
+    }
 
 }

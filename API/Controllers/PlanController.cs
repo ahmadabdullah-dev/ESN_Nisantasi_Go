@@ -68,4 +68,10 @@ public class PlanController: BaseApiController
         var result = await _planService.GetCurrentUserPlansAsync(p, ct);
         return HandleResult(result);
     }
+    [HttpGet("user/{userId}")]
+    public async Task<ActionResult> GeUserPlansAsync(string userId, [FromQuery] PaginationParams p, CancellationToken ct)
+    {
+        var result = await _planService.GetUserPlansAsync(userId,p, ct);
+        return HandleResult(result);
+    }
 }
