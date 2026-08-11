@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useGetUserByUsername } from "../../lib/hooks/useUser";
+import { useParams } from "react-router";
 
 interface ProfileFieldProps {
   label: string;
@@ -30,11 +31,22 @@ function ProfileField({ label, value }: ProfileFieldProps) {
 }
 
 export interface ProfileProps {
-  userName: string;
+  userName?: string;
 }
 
-export default function Profile({ userName }: ProfileProps) {
-  const currentUser = useGetUserByUsername(userName);
+export default function Profile({ userName: userNameProp }: ProfileProps) {
+  const { username: userNameParam } = useParams<{ username: string }>();
+  const userName = userNameProp ?? userNameParam;
+
+  const currentUser = useGetUserByUsername(userName ?? "");
+
+  if (!userName) {
+    return (
+      <Box sx={{ mt: 6, textAlign: "center" }}>
+        <Typography color="text.secondary">No username provided.</Typography>
+      </Box>
+    );
+  }
 
   if (currentUser.isLoading) {
     return (
