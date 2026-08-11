@@ -86,7 +86,7 @@ export default function TemporaryDrawer({ items }: DrawerProps) {
                 letterSpacing: "0.18em",
               }}
             >
-              ESN Nisantasi Go
+              Social Plan Platform
             </Typography>
             <IconButton
               onClick={toggleDrawer(false)}

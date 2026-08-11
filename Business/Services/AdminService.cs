@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -72,7 +72,7 @@ public class AdminService : IAdminService
 
         try
         {
-            await _emailService.SendEmailAsync(user.Email, "Welcome", $"Hi {user.FirstName}, welcome to our ESN Nisantasi club!");
+            await _emailService.SendEmailAsync(user.Email, "Welcome", $"Hi {user.FirstName}, welcome to Social Plan Platform!");
         }
         catch (Exception ex)
         {

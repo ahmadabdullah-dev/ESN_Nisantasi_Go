@@ -61,7 +61,7 @@ export default function Header() {
             userSelect: "none",
           }}
         >
-          ESN Nisantasi Go
+          Social Plan Platform
         </Typography>
 
         <Stack

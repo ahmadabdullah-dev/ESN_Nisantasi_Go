@@ -1,4 +1,4 @@
-# ESN Nisantasi Go
+# Social Plan Platform
 
 ## How to Run
 
