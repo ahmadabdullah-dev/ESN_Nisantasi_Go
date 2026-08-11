@@ -12,7 +12,7 @@ import AddPlan from "../../features/plan/AddPlan";
 import RequireAdminRole from "./RequireAdminRole";
 import SettingsDashboard from "../../features/settings/SettingsDashboard";
 import PlanDetails from "../../features/plan/PlanDetails";
-
+import UpdatePlan from "../../features/plan/UpdatePlan";
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -33,6 +33,7 @@ export const routes = createBrowserRouter([
           { path: "plans", element: <PlansDashboard /> },
           { path: "plans/add", element: <AddPlan /> },
           { path: "plans/:id", element: <PlanDetails /> },
+          { path: "plans/update/:id", element: <UpdatePlan /> },
         ],
       },
       { path: "login", element: <LoginForm /> },

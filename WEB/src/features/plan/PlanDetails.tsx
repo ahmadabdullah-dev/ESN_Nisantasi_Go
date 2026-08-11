@@ -1,8 +1,9 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { usePlanById } from "../../lib/hooks/usePlan";
 import {
   Alert,
   Box,
+  Button,
   Card,
   CardContent,
   Chip,
@@ -16,10 +17,13 @@ import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { Shared } from "../../lib/shared";
 import PlanJoinLeaveButtons from "./PlanJoinLeaveButtons";
+import { useCurrentUser } from "../../lib/hooks/useUser";
 
 export default function PlanDetails() {
   const { id } = useParams<{ id: string }>();
   const { data: plan, isLoading, error } = usePlanById(id ?? "");
+  const user = useCurrentUser();
+  const navigate = useNavigate();
 
   if (!id) {
     return (
@@ -51,12 +55,17 @@ export default function PlanDetails() {
 
   return (
     <Container sx={{ py: 8 }}>
-      <Card sx={{width:1}}>
+      <Card sx={{ width: 1 }}>
         <CardContent sx={{ flexGrow: 1 }}>
+
+          {plan?.creatorUserName === user.data?.userName && (
+            <Button onClick={() => navigate(`/plans/update/${plan?.id}`)}>
+              Update Plan
+            </Button>
+          )}
           <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5 }}>
             {plan?.title}
           </Typography>
-
           {plan?.description && (
             <Typography
               variant="body2"
@@ -68,7 +77,6 @@ export default function PlanDetails() {
               {plan.description}
             </Typography>
           )}
-
           <Stack spacing={1} sx={{ mb: plan?.creatorUserName ? 2 : 0 }}>
             {plan?.locationName && (
               <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
@@ -98,7 +106,6 @@ export default function PlanDetails() {
               </Typography>
             </Stack>
           </Stack>
-
           {plan?.creatorUserName && (
             <Chip
               size="small"
@@ -108,9 +115,8 @@ export default function PlanDetails() {
               sx={{ maxWidth: "100%" }}
             />
           )}
-
           <Box sx={{ mt: 2 }}>
-            <PlanJoinLeaveButtons planId ={id} />
+            <PlanJoinLeaveButtons planId={id} />
           </Box>
         </CardContent>
       </Card>

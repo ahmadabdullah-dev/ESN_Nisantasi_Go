@@ -12,3 +12,10 @@ locationName: string,
 description: string,
 plannedAt: string
 }
+export type UpdatePlanDto = {
+  planId : string;
+  title?: string;
+  locationName?: string;
+  description?: string;
+  plannedAt?: string
+}
