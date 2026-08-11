@@ -59,9 +59,11 @@ export default function PlanDetails() {
         <CardContent sx={{ flexGrow: 1 }}>
 
           {plan?.creatorUserName === user.data?.userName && (
-            <Button onClick={() => navigate(`/plans/update/${plan?.id}`)}>
+            <Box sx={{paddingBottom:3}}>
+              <Button  variant="outlined" onClick={() => navigate(`/plans/update/${plan?.id}`)}>
               Update Plan
             </Button>
+            </Box>
           )}
           <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5 }}>
             {plan?.title}

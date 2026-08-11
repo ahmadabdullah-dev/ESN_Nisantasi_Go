@@ -1,7 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import dayjs from "dayjs";
 import type { AddPlanDto } from "../../lib/types/plan";
-import { usePlan } from "../../lib/hooks/usePlan";
+import { useAddPlanAsync } from "../../lib/hooks/usePlan";
 import {
   Container,
   Paper,
@@ -16,7 +16,7 @@ import {
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 export default function AddPlan() {
-  const { addPlanAsync } = usePlan();
+  const  addPlanAsync  = useAddPlanAsync();
 
   const {
     register,

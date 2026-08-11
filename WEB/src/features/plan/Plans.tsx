@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import type { PaginationParams } from "../../lib/types/common";
-import { usePlan } from "../../lib/hooks/usePlan";
 import {
   Alert,
   Box,
@@ -21,13 +20,14 @@ import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { Shared } from "../../lib/shared";
 import BoltIcon from "@mui/icons-material/Bolt";
+import { useGetPlansAsync } from "../../lib/hooks/usePlan";
 
 export default function Plans() {
   const [pagination, setPagination] = useState<PaginationParams>({
     page: 1,
     pageSize: 9,
   });
-  const { getPlansAsync } = usePlan(pagination);
+  const  getPlansAsync  = useGetPlansAsync(pagination);
   const navigate = useNavigate();
 
   if (getPlansAsync.isLoading) {

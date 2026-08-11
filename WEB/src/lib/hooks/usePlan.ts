@@ -2,9 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../api/agent";
 import type { AddPlanDto, PlanDto, UpdatePlanDto } from "../types/plan";
 import type { PaginatedList, PaginationParams } from "../types/common";
+import { useNavigate } from "react-router";
 
-export const usePlan = (pagination?: PaginationParams) => {
-  const getPlansAsync = useQuery({
+export const useGetPlansAsync = (pagination?: PaginationParams) => {
+  return useQuery({
     queryKey: ["plans", pagination?.page, pagination?.pageSize],
     queryFn: async () =>
       await agent
@@ -13,18 +14,20 @@ export const usePlan = (pagination?: PaginationParams) => {
     enabled: !!pagination,
     staleTime: 5 * 60 * 1000,
   });
+};
 
-  const addPlanAsync = useMutation({
+export const useAddPlanAsync = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: async (creds: AddPlanDto) => {
       const response = await agent.post("/Plan/add", creds);
       return response.data;
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["plans"] });
+    },
   });
-
-  return {
-    getPlansAsync,
-    addPlanAsync,
-  };
 };
 
 export function usePlanById(id: string) {
@@ -89,6 +92,7 @@ export const useJoinPlan = (planId: string) => {
 
 export const useLeavePlan = (planId: string) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: async () => {
@@ -115,6 +119,11 @@ export const useLeavePlan = (planId: string) => {
       queryClient.invalidateQueries({
         queryKey: ["user-plans"],
       });
+      queryClient.invalidateQueries({ queryKey: ["plans"] });
+
+    },
+    onSuccess: () => {
+      navigate("/dashboard");
     },
   });
 };
