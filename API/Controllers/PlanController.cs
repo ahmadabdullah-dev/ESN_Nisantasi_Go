@@ -62,12 +62,6 @@ public class PlanController: BaseApiController
         var result = await _planService.IsPlanParticipatedAsync(plandId, ct);
         return HandleResult(result);
     }
-    [HttpGet("current-user")]
-    public async Task<ActionResult> GetCurrentUserPlansAsync([FromQuery] PaginationParams p, CancellationToken ct) 
-    {
-        var result = await _planService.GetCurrentUserPlansAsync(p, ct);
-        return HandleResult(result);
-    }
     [HttpGet("user/{userId}")]
     public async Task<ActionResult> GeUserPlansAsync(string userId, [FromQuery] PaginationParams p, CancellationToken ct)
     {
